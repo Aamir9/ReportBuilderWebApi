@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
-using BusinessEntities;
 using BusinessServices;
 
 namespace ReportBuilder.Controllers
@@ -35,20 +34,9 @@ namespace ReportBuilder.Controllers
        [HttpPost]
         public JsonResult GetColumnsNames()
         {
-            Employe empEntity = new Employe();
-            Department deptEntity = new Department();
-            City cityEntity = new City();
-            Country countryEntity = new Country();
-
-            return new JsonResult(new 
-            {  code = 1,
-               message = "success",
-               employeeCols = _unitOfWork.EmployeRepository.GetColumnsName(empEntity),
-               departmentCols = _unitOfWork.DepartmentRepositroy.GetColumnsName(deptEntity),
-               cityCols= _unitOfWork.CityRepository.GetColumnsName(cityEntity),
-               countryCols = _unitOfWork.CountryRepository.GetColumnsName(countryEntity),
-            }
-            );
+          
+            ColumnsInfo columnsInfo = new ColumnsInfo(_unitOfWork);
+            return columnsInfo.GetColumnsNames();
         }
 
     }
