@@ -28,19 +28,20 @@ namespace ReportBuilder
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddCors();
 
-         
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen();
 
-            // If using Kestrel:
-            services.Configure<KestrelServerOptions>(options =>
-            {
-                options.AllowSynchronousIO = true;
-            });
+            //// If using Kestrel:
+            //services.Configure<KestrelServerOptions>(options =>
+            //{
+            //    options.AllowSynchronousIO = true;
+            //});
 
-            // If using IIS:
-            services.Configure<IISServerOptions>(options =>
-            {
-                options.AllowSynchronousIO = true;
-            });
+            //// If using IIS:
+            //services.Configure<IISServerOptions>(options =>
+            //{
+            //    options.AllowSynchronousIO = true;
+            //});
 
         }
 
@@ -61,6 +62,17 @@ namespace ReportBuilder
             app.UseCors(
                 options => options.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod()
             );
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = "";
+            });
 
             app.UseEndpoints(endpoints =>
             {
